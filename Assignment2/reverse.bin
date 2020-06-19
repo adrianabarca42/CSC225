@@ -1,0 +1,27 @@
+; Reverses the value at 0x3050 into 0x3051.
+; CSC 225, Assignment 2
+; Given code, Winter '20
+
+0011 0000 0000 0000     ;Start at 0x3000.
+0010 000 001001111      ;LD into R0, 0x3050(value)
+0010 001 001010001      ;LD into R1, 0x3053(loop counter)
+0010 010 001010111      ;LD into R2, some 0 value(mask)
+0001 010 010 1 00001    ;R2 + #1 => R2
+0010 011 001010010      ;LD into R3, 0x3054 (reversed number)
+0001 001 001 1 01111    ;R1 + #15 => R1 (loop limit)
+0000 110 000001010      ;While (R1 < 0)
+0101 100 010 000 000    ;AND mask and value => R4
+0000 010 000000011      ;if (R2 == 0) skip next 3 instructions
+0001 011 011 1 00001    ;R3 + 1 => R3
+0001 011 011 000 011    ;R3 + R3 => R3
+0000 111 000000010      ;else statement
+0000 101 000000001      ;if (R2 != zero) skip next instruction
+0001 011 011 000 011    ;R3 + R3 => R3
+0001 010 010 000 010    ;R2 + R2 => R2
+0001 001 001 1 11111    ;decrement counter
+0000 111 111110101      ;loop back 10 instructions
+0001 000 000 1 00000    ;touch R0
+0000 011 000000001      ;if (R0 < #0) skip next instruction
+0001 011 011 1 00001    ;R3 + #1 => R3
+0011 011 000111100      ;Store R0 => 0x3051
+1111 0000 00100101      ;HALT

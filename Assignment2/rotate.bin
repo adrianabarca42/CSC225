@@ -1,0 +1,13 @@
+; Rotates the bits of the value at 0x3050 left once.
+; CSC 225, Assignment 2
+; Given code, Winter '20
+
+0011 0000 0000 0000     ; Start at 0x3000
+0010 001 001010011      ;load into R1, some location with value 0
+0010 000 001001110      ;load into R0, 0x3050
+0000 011 000000001      ;skip next instruction if R0 >= #0
+0001 001 001 1 00001    ;ADD, R0 + #1 => R1
+0001 000 000 000 000    ;ADD, R0 + RO => R0(left shift)
+0001 010 001 000 000    ;ADD, R2 + R0 => R2(setting LSB)
+0011 010 001001001      ;Store R2 => 0x3050
+1111 0000 00100101      ;HALT
